@@ -1,0 +1,210 @@
+/* Sección de portada con órbita temporal */
+.frame-1 {
+	position: relative;
+	justify-content: flex-start;
+	align-items: stretch;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background:
+		radial-gradient(circle at top center, rgba(193, 172, 139, 0.32), transparent 38%),
+		linear-gradient(180deg, rgba(250, 237, 228, 0.96) 0%, rgba(250, 237, 228, 0.9) 100%);
+	overflow: hidden;
+}
+
+.frame-1 nav {
+	margin-top: auto;
+	min-height: clamp(10rem, 10vw, 8rem);
+	width: 100%;
+	position: relative;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0 0;
+    background-image: url("../assets/img/background.png");
+    background-size: cover;
+}
+
+.front-cover {
+	position: relative;
+	flex: 1;
+	width: 100%;
+	min-height: 0;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.brand-signature {
+	position: absolute;
+	left: 50%;
+	top: 65%;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.15rem;
+	text-align: center;
+	pointer-events: none;
+}
+
+.brand-signature .logo {
+	position: static;
+	left: auto;
+	top: auto;
+	transform: none;
+	width: min(45vw, 25rem);
+	max-width: 25rem;
+}
+
+.brand-signature h6 {
+	margin: 0;
+	font-size: clamp(0.75rem, 1vw, 0.95rem);
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--text);
+}
+
+.front-cover img {
+	position: absolute;
+	left: 50%;
+	top: 65%;
+	display: block;
+	transform: translate(-50%, -50%);
+	transform-origin: center center;
+	will-change: transform, opacity, clip-path;
+	transition:
+		transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+		opacity 900ms ease,
+		clip-path 900ms ease;
+}
+
+.front-cover img.cloud {
+	top: clamp(1rem, 6vw, 3.25rem);
+	left: auto;
+	transform: none;
+	width: min(24vw, 20rem);
+	max-width: 20rem;
+	z-index: 4;
+	pointer-events: none;
+}
+
+.front-cover img.cloud-1 {
+	left: clamp(1rem, 8vw, 6rem);
+	transform: rotate(-2deg);
+}
+
+.front-cover img.cloud-2 {
+	right: clamp(1rem, 8vw, 6rem);
+	left: auto;
+	transform: rotate(2deg);
+}
+
+.logo {
+	z-index: 2;
+}
+
+.sun {
+	width: min(25vw, 15rem);
+	max-width: 15rem;
+	z-index: 1;
+}
+
+.moon {
+	width: min(20vw, 12rem);
+	max-width: 12rem;
+	z-index: 1;
+}
+
+.sun {
+	filter: drop-shadow(0 0 18px rgba(157, 96, 50, 0.18));
+	transform-origin: center center;
+	animation: sun-spin 240s linear infinite;
+}
+
+.moon {
+	filter: drop-shadow(0 0 18px rgba(20, 76, 89, 0.18));
+}
+
+/* Leafs: pegadas a los lados inferiores del front-cover */
+
+.front-cover .leafs {
+	position: absolute;
+	bottom: 0;
+	left: auto;
+	right: auto;
+	height: 60%; /* 2/5 de la altura del front-cover */
+	width: auto;
+	max-width: none;
+	pointer-events: none;
+	z-index: 5;
+	transform: none;
+	visibility: visible;
+	overflow: hidden; /* recortar los márgenes blancos de las imágenes */
+}
+
+.front-cover .leafs-left {
+	left: 0; /* pegada al borde izquierdo */
+	right: auto;
+	width: auto;
+	transform-origin: left bottom;
+}
+
+.front-cover .leafs-right {
+	right: 0; /* pegada al borde derecho */
+	left: auto;
+	transform-origin: right bottom;
+}
+
+/* Imagen interna: cubrir la caja y recortar espacios blancos */
+.front-cover .leafs img {
+	display: block;
+	position: static; /* mantener dentro del flujo del contenedor para que el div tenga ancho */
+	height: 100%;
+	width: auto;
+	object-fit: cover;
+	transform: none;
+	pointer-events: none;
+	will-change: transform;
+	backface-visibility: hidden;
+}
+
+.front-cover .leafs-left img { margin-left: 0; }
+.front-cover .leafs-right img { margin-right: 0; }
+
+/* Animación suave de viento: movimiento lateral sin cambiar el punto de origen */
+
+@keyframes leaf-wind {
+	0% { transform: translateX(0px) skewX(0deg) rotate(0deg); }
+	25% { transform: translateX(3px) skewX(0.8deg) rotate(0.35deg); }
+	50% { transform: translateX(6px) skewX(1.2deg) rotate(0.7deg); }
+	75% { transform: translateX(3px) skewX(0.8deg) rotate(0.35deg); }
+	100% { transform: translateX(0px) skewX(0deg) rotate(0deg); }
+}
+
+@keyframes sun-spin {
+	0% { transform: translate(-50%, -50%) rotate(0deg); }
+	100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.front-cover .leafs-left {
+	animation: leaf-wind 4s ease-in-out infinite;
+	will-change: transform;
+	backface-visibility: hidden;
+	transform-origin: left bottom;
+}
+
+.front-cover .leafs-right {
+	animation: leaf-wind 4.6s ease-in-out infinite;
+	will-change: transform;
+	backface-visibility: hidden;
+	transform-origin: right bottom;
+}
+
+/* Pequeñas variaciones responsivas para que no corten en pantallas pequeñas */
+@media (max-width: 520px) {
+	.front-cover .leafs { height: 35%; }
+	.front-cover .leafs-left, .front-cover .leafs-right { animation-duration: 3.6s; }
+}

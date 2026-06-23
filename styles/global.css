@@ -1,0 +1,500 @@
+@import url("./variables.css");
+@import url("./buttons.css");
+@import url("./decorations.css");
+@import url("./modal.css");
+
+/* Reseteo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: var(--font-body);
+    color: var(--text);
+    background-color: var(--background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
+    color: var(--title);
+}
+
+html, body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.sub-title {
+    color: var(--title);
+    font-weight: 600;
+}
+
+/* Secciones verticales estándar */
+.frame {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- ESTRUCTURA GRID --- */
+#about-me {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    align-items: stretch;
+    width: 100vw;
+    min-height: 100vh;
+    gap: 20px;
+    /* CAMBIO: Ajustamos el padding (Arriba, Derecha, Abajo, Izquierda). 
+       Dejamos el de abajo en 0 para que el h1 pueda tocar el borde real. */
+    padding: 40px 40px 0 40px; 
+    box-sizing: border-box;
+}
+
+.columna-lateral {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    height: 100%;
+    width: 100%;
+    /* NUEVO: Le damos un padding inferior para compensar el que le quitamos al padre, 
+       así tus SVGs laterales no chocan con el fondo si no quieres que lo hagan. */
+    padding-bottom: 40px; 
+}
+
+.contenedor-parallax,
+.contenedor-imagen {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor-parallax {
+    flex: 2 1 0;
+    overflow: hidden;
+}
+
+.contenedor-imagen {
+    flex: 1 1 0;
+}
+
+.contenedor-parallax svg {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    flex-shrink: 0;
+    display: block;
+}
+
+.contenedor-imagen img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    display: block;
+}
+
+.apps {
+    width: 65%;
+    height: auto;
+    display: block;
+    justify-self: center;
+}
+
+.columna-central {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+}
+
+/* 1. Títulos principales */
+.columna-central h1 {
+    font-size: clamp(2rem, 3vw, 3.5rem); /* Escala suavemente entre 32px y 56px */
+    margin-top: 1rem; /* Separación del bloque anterior */
+}
+
+/* Quitamos el margen superior al primer H1 para que quede alineado arriba */
+.columna-central h1:first-child {
+    margin-top: 0; 
+}
+
+/* 2. Párrafo general (Sobre mí) */
+.columna-central p:not(.sub-title) {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem); /* Texto más grande y legible */
+    line-height: 1.7; /* Un interlineado más suelto llena mejor el espacio visual */
+}
+
+/* 3. Subtítulos (Nombres de instituciones/certificados) */
+.columna-central p.sub-title {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    font-weight: 700;
+    margin-bottom: 0.4rem; /* Lo mantenemos cerca del span que lo describe */
+}
+
+/* 4. Descripciones (Span) */
+.columna-central span {
+    display: block; /* Obligatorio: los span son 'inline' por defecto y no aceptan márgenes verticales */
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    line-height: 1.5;
+    margin-bottom: 1.5rem; /* Separación antes del siguiente subtítulo */
+}
+
+/* 5. Tu h1 anclado al fondo (aseguramos que las reglas anteriores no lo rompan) */
+.h1-fondo {
+    font-size: clamp(2.5rem, 4vw, 4rem) !important; /* Opcional: hacerlo un poco más grande que los otros H1 */
+    margin-top: auto !important; 
+    margin-bottom: 3rem !important;
+    line-height: 0.8;
+}
+
+/* --- ESTILOS DEL PARALLAX --- */
+#framed-sun, #framed-moon, #girl-1, #girl-2 {
+    will-change: transform;
+}
+
+/* --- Layout Base --- */
+.frame-3-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.frame-3-content {
+    display: flex;
+    width: 300vw;
+    height: 100vh;
+    will-change: transform;
+    position: relative;
+}
+
+.horizontal-panel {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--background);
+}
+
+/* --- EL RASTRO (SVG) --- */
+.trail-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300vw;
+    height: 100vh;
+    z-index: 1; /* El elemento más al fondo */
+    pointer-events: none;
+}
+
+/* --- AGRUPACIÓN DE PARADAS --- */
+.stop-group {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 100vh;
+    transform: translateX(-50%); 
+    z-index: 10;
+}
+
+/* Wrapper Grid: Asegura que Card e Imagen ocupen el MISMO espacio */
+.content-wrapper {
+    position: absolute;
+    left: 0;
+    width: 280px; 
+    transform: translateX(-50%); 
+    display: grid; 
+    place-items: center;
+}
+
+/* Intercalado Vertical Opuesto al Viajero */
+.is-up { bottom: 55vh; } 
+.is-down { top: 55vh; }  
+
+/* Amarran al mismo cuadro del Grid */
+.card-content, .parada-img {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Imagen de Parada (La Portada) --- */
+.parada-img {
+    z-index: 10; /* DELANTE del card */
+    will-change: transform;
+}
+
+.parada-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+/* --- El Card (Oculto Atrás) --- */
+.card-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 0.15rem var(--illustration-orange);
+    z-index: 5; /* DETRÁS de la portada */
+    opacity: 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    will-change: transform, opacity;
+    height: 75%;
+}
+
+.card-content h3 { margin-bottom: 10px;}
+.card-content p { font-size: 16px; margin-bottom: 5px; color: var(--text); }
+
+/* --- Elemento Viajero (La Bicicleta) --- */
+.traveling-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30vw;
+    height: auto;
+    transform-origin: center center;
+    pointer-events: none;
+    z-index: 2; /* Sobre el rastro(1) pero debajo de las paradas(10) */
+}
+
+/* --- Encabezado Superior Izquierdo --- */
+.top-left-header {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.top-left-header h1 {
+    margin: 0;
+    font-size: 5rem;
+    white-space: nowrap;
+}
+
+.header-icon {
+    width: 10%;
+    height: 10%;
+    object-fit: contain;
+}
+
+.blue-start, .blue-mid, .blue-end {
+    background-color: var(--background);
+}
+
+/* Contenedor principal dividido en 2 columnas (1/4 y 3/4) */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* 1 parte izquierda, 3 partes derecha = 1/4 y 3/4 */
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px; /* Ajusta según el diseño de tu web */
+    margin-top: 40px;
+    background: white; /* Fondo blanco para destacar el formulario */
+    padding: 50px;
+    border-radius: 4rem;
+    box-shadow: inset 0 0 0 0.25rem var(--illustration-orange);
+}
+
+/* =========================================
+   COLUMNA IZQUIERDA (Logo y Redes)
+   ========================================= */
+.contact-left {
+    display: grid;
+    grid-template-rows: 1fr;
+    gap: 5px;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.contact-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.social-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-radius: 8px;
+}
+
+.social-wrapper a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* =========================================
+   COLUMNA DERECHA (Formulario)
+   ========================================= */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espacio entre filas del formulario */
+}
+
+/* Fila dividida para Nombre y Correo */
+.form-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Mitad y mitad */
+    gap: 20px;
+}
+
+/* Estilos generales para inputs, selects y textareas */
+.contact-form input,
+.contact-form select{
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 4rem;
+    font-family: inherit;
+    font-size: 16px;
+    box-sizing: border-box; /* Evita que el padding rompa el ancho del 100% */
+    box-shadow: inset 0 0 0 0.25rem var(--illustration-orange);
+    background: var(--background);
+    border: none;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 15px 12px 18px;
+    border-radius: 4rem;
+    border: none;
+    background: var(--background);
+    box-shadow: inset 0 0 0 0.25rem var(--illustration-orange);
+    font: inherit;
+    font-size: 16px;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+}
+
+.custom-select__trigger:focus {
+    outline: none;
+}
+
+.custom-select__value {
+    flex: 1;
+    min-width: 0;
+}
+
+.custom-select__trigger.is-placeholder .custom-select__value {
+    opacity: 0.7;
+}
+
+.custom-select__arrow {
+    flex: 0 0 auto;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--text);
+    border-bottom: 2px solid var(--text);
+    transform: rotate(45deg);
+    margin-right: 0.25rem;
+    transition: transform 0.2s ease;
+}
+
+.custom-select.is-open .custom-select__arrow {
+    transform: rotate(-135deg);
+}
+
+.custom-select__list {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: var(--background);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    display: none;
+    z-index: 30;
+}
+
+.custom-select.is-open .custom-select__list {
+    display: block;
+}
+
+.custom-select__option {
+    width: 100%;
+    display: block;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+.custom-select__option:hover,
+.custom-select__option:focus-visible {
+    background: var(--illustration-orange);
+    color: var(--background);
+    outline: none;
+}
+
+.custom-select__option.is-selected {
+    background: var(--illustration-orange);
+    color: var(--background);
+}
+
+.custom-select__list li + li {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 1rem;
+    font-family: inherit;
+    font-size: 16px;
+    box-sizing: border-box; /* Evita que el padding rompa el ancho del 100% */
+    box-shadow: inset 0 0 0 0.25rem var(--illustration-orange);
+    background: var(--background);
+    border: none;
+    height: 250px; /* Alto fijo para el textarea */
+    resize: none; /* Permite agrandar el textarea solo hacia abajo */
+}
+
+.contact-form textarea:focus, .contact-form select:focus, .contact-form input:focus {
+    border: none;
+    outline: none;
+}

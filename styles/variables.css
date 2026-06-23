@@ -1,0 +1,23 @@
+:root {
+    --background: #FAEDE4;
+    --text: #633A2A;
+    --title: #144C59;
+    --illustration-orange: #9D6032;
+    --illustration-green: #5E6D6D;
+    --complementary-green: #274029;
+    --complementary-beige: #C1AC8B;
+    --font-title: "Forta", serif;
+    --font-body: "FuturaBook", sans-serif;
+}
+
+@font-face {
+    font-family: "Forta";
+    src: url("../assets/fonts/Forta.ttf") format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "FuturaBook";
+    src: url("../assets/fonts/FuturaBook.ttf") format("truetype");
+    font-display: swap;
+}
